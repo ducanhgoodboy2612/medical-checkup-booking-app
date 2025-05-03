@@ -1,0 +1,332 @@
+{role == 2 && (
+                <nav className="navbar navbar-expand-lg bg-light shadow-lg">
+                    <div className="container">
+                        <a className="navbar-brand" href="index.html">
+                            <img
+                                src="/images/logo.png"
+                                className="logo img-fluid"
+                                alt="Kind Heart Charity"
+                            />
+                            <span>
+                                Kind Heart Charity
+                                <small>Non-profit Organization</small>
+                            </span>
+                        </a>
+                        <button
+                            className="navbar-toggler"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#navbarNav"
+                            aria-controls="navbarNav"
+                            aria-expanded="false"
+                            aria-label="Toggle navigation"
+                        >
+                            <span className="navbar-toggler-icon" />
+                        </button>
+                        <div className="collapse navbar-collapse" id="navbarNav">
+                            <ul className="navbar-nav ms-auto">
+                                <li className="nav-item">
+                                    <Link to={"/"}>
+                                        <a className="nav-link click-scroll" href="#top">
+                                            Trang chủ
+                                        </a>
+                                    </Link>
+                                </li>
+                                <li className="nav-item">
+                                    <a className="nav-link click-scroll" href="#section_2">
+                                        Chuyên khoa
+                                    </a>
+                                </li>
+                               
+                                <li className="nav-item dropdown">
+                                    <a
+                                        className="nav-link click-scroll dropdown-toggle"
+                                        href="#section_5"
+                                        id="navbarLightDropdownMenuLink"
+                                        role="button"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
+                                    >
+                                        Phiếu khám
+                                    </a>
+                                    <ul
+                                        className="dropdown-menu dropdown-menu-light"
+                                        aria-labelledby="navbarLightDropdownMenuLink"
+                                    >
+                                        <li>
+                                            <Link to={"/doctor/your-appointment"}>
+                                                <a className="dropdown-item" href="news.html">
+                                                    Khám lần đầu
+                                                </a>
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link to={"/doctor/your-appointment"}>
+                                                <p className="dropdown-item" >
+                                                    Khám lại
+                                                </p>
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li className="nav-item dropdown">
+                                    <a
+                                        className="nav-link click-scroll dropdown-toggle"
+                                        href="#section_5"
+                                        id="navbarLightDropdownMenuLink"
+                                        role="button"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
+                                    >
+                                        Quản lý
+                                    </a>
+                                    <ul
+                                        className="dropdown-menu dropdown-menu-light"
+                                        aria-labelledby="navbarLightDropdownMenuLink"
+                                    >
+                                        <li>
+                                            <a className="dropdown-item" href="news.html">
+                                                Bệnh nhân
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <Link to={"/doctor/schedul-checking"}>
+                                                <a className="dropdown-item" href="news-detail.html">
+                                                    Lịch khám
+                                                </a>
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li className="nav-item">
+                                    <a className="nav-link click-scroll" href="#section_6">
+                                        Liên hệ
+                                    </a>
+                                </li>
+                                <li className="nav-item ms-3">
+                                    <a
+                                        className="nav-link custom-btn custom-border-btn btn"
+                                        href="donate.html"
+                                    >
+                                        Đăng nhập
+                                    </a>
+                                </li>
+                                <li className="nav-item dropdown">
+                                    <a
+                                        className="click-scroll dropdown-toggle"
+                                        href="#"
+                                        id="navbarLightDropdownMenuLink"
+                                        role="button"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
+                                    >
+                                        {!user && (
+                                            <i className="fas fa-user" style={{ fontSize: '24px' }}></i>
+                                        )}
+                                        {user && (
+                                            <img
+                                                src={`/images/doctors/${user.avatar}`}
+                                                alt="Doctor Avatar"
+                                                className="rounded-circle"
+                                                style={{
+                                                    width: '45px',
+                                                    height: '45px',
+                                                    objectFit: 'cover',
+                                                    marginLeft: '20px',
+                                                    marginTop: 10
+                                                }}
+                                            />
+                                        )}
+
+
+
+                                    </a>
+
+                                    <ul
+                                        className="dropdown-menu dropdown-menu-light"
+                                        aria-labelledby="navbarLightDropdownMenuLink"
+                                    >
+                                        <li>
+                                            <a className="dropdown-item" href="news.html">
+                                                Thông tin người dùng
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <Link to={"/login"}>
+                                                <a className="dropdown-item" href="news-detail.html">
+                                                    Đăng xuất
+                                                </a>
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            )
+            
+            }
+
+
+
+
+             {(role == 4 || role == 1) && (
+                <nav className="navbar navbar-expand-lg bg-light shadow-lg">
+                    <div className="container">
+                        <a className="navbar-brand" href="index.html">
+                            <img
+                                src="/images/logo.png"
+                                className="logo img-fluid"
+                                alt="Kind Heart Charity"
+                            />
+                            <span>
+                                Kind Heart Charity
+                                <small>Non-profit Organization</small>
+                            </span>
+                        </a>
+                        <button
+                            className="navbar-toggler"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#navbarNav"
+                            aria-controls="navbarNav"
+                            aria-expanded="false"
+                            aria-label="Toggle navigation"
+                        >
+                            <span className="navbar-toggler-icon" />
+                        </button>
+                        <div className="collapse navbar-collapse" id="navbarNav">
+                            <ul className="navbar-nav ms-auto">
+                                <li className="nav-item">
+                                    <Link to={"/"}>
+                                        <a className="nav-link click-scroll" href="#top">
+                                            Trang chủ
+                                        </a>
+                                    </Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link to={"/specialties"}>
+                                    <a className="nav-link click-scroll" href="#section_2">
+                                        Chuyên khoa
+                                    </a>
+                                    </Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link to={"/clinics"}>
+                                    <a className="nav-link click-scroll" href="#section_3">
+                                        Cơ sở y tế
+                                    </a>
+                                    </Link>
+                                </li>
+                                {/* <li className="nav-item">
+                                    <a className="nav-link click-scroll" href="#section_3">
+                                        Lịch đã đặt
+                                    </a>
+                                </li> */}
+                                
+                                <li className="nav-item dropdown">
+                                    <a
+                                        className="nav-link click-scroll dropdown-toggle"
+                                        href="#section_5"
+                                        id="navbarLightDropdownMenuLink"
+                                        role="button"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
+                                    >
+                                        Thông tin
+                                    </a>
+                                    <ul
+                                        className="dropdown-menu dropdown-menu-light"
+                                        aria-labelledby="navbarLightDropdownMenuLink"
+                                    >
+                                        <li>
+                                            <Link to={"/appointment"}>
+                                                <a className="dropdown-item" href="news.html">
+                                                    Lịch khám đã đặt
+                                                </a>
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link to={"/doctor/schedul-checking"}>
+                                                <a className="dropdown-item" href="news-detail.html">
+                                                    Hồ sơ bệnh án
+                                                </a>
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li className="nav-item">
+                                    <a className="nav-link click-scroll" href="#section_6">
+                                        Liên hệ
+                                    </a>
+                                </li>
+                                <li className="nav-item ms-3">
+                                    <a
+                                        className="nav-link custom-btn custom-border-btn btn"
+                                        href="donate.html"
+                                    >
+                                        Đăng nhập
+                                    </a>
+                                </li>
+                                <li className="nav-item dropdown">
+                                    <a
+                                        className="click-scroll dropdown-toggle"
+                                        href="#"
+                                        id="navbarLightDropdownMenuLink"
+                                        role="button"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
+                                    >
+                                        {!user && (
+                                            <i className="fas fa-user" style={{ fontSize: '24px' }}></i>
+                                        )}
+                                        {user && (
+                                            <img
+                                                src={`/images/doctors/${user.avatar}`}
+                                                alt="Doctor Avatar"
+                                                className="rounded-circle"
+                                                style={{
+                                                    width: '45px',
+                                                    height: '45px',
+                                                    objectFit: 'cover',
+                                                    marginLeft: '20px',
+                                                    marginTop: 10
+                                                }}
+                                            />
+                                        )}
+
+
+
+                                    </a>
+
+                                    <ul
+                                        className="dropdown-menu dropdown-menu-light"
+                                        aria-labelledby="navbarLightDropdownMenuLink"
+                                    >
+                                        <li>
+                                            <a className="dropdown-item" href="news.html">
+                                                Thông tin người dùng
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <Link to={"/login"}>
+                                                <a className="dropdown-item" href="news-detail.html">
+                                                    Đăng xuất
+                                                </a>
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            )
+
+            }
+
+
+

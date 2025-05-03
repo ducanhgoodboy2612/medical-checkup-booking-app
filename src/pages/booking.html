@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elegant Table with Bootstrap</title>
+    <!-- Link to Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+
+        .table-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .table thead {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .table td,
+        .table th {
+            vertical-align: middle;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container table-container">
+        <h2 class="text-center mb-4">Appointment Table</h2>
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Doctor ID</th>
+                    <th scope="col">Status ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Date Booking</th>
+                    <th scope="col">Time Booking</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Gender</th>
+                    <th scope="col">Year</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>101</td>
+                    <td>1</td>
+                    <td>John Doe</td>
+                    <td>123-456-7890</td>
+                    <td>2024-09-12</td>
+                    <td>14:30</td>
+                    <td>johndoe@example.com</td>
+                    <td>Male</td>
+                    <td>1990</td>
+                    <td>1234 Elm Street</td>
+                    <td>General check-up</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>102</td>
+                    <td>2</td>
+                    <td>Jane Smith</td>
+                    <td>098-765-4321</td>
+                    <td>2024-09-13</td>
+                    <td>10:00</td>
+                    <td>janesmith@example.com</td>
+                    <td>Female</td>
+                    <td>1985</td>
+                    <td>5678 Oak Avenue</td>
+                    <td>Consultation for symptoms</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Bootstrap JS (Optional if needed) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
