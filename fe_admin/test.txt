@@ -1,0 +1,508 @@
+import { Table, Button, DatePicker, Flex, Form, Input, Modal, Select, Upload, UploadProps } from "antd";
+import { useEffect, useState } from "react";
+import { createDoctor, updateDoctor, getDoctorById, getClinicsByDocId, upload } from "../../services/doctor.services";
+import { UploadOutlined } from "@ant-design/icons";
+import { getPaged_Spec, getAllTitles } from "../../services/general.services";
+import dayjs from "dayjs";
+
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import Quill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import { title } from "process";
+
+const { Option } = Select;
+
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 5 },
+    sm: { span: 5 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 16 },
+  },
+};
+
+const DoctorModel = (props: any) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [specialties, setSpecialties] = useState([]);
+  const [titles, setTitles] = useState([]);
+  const [clinics, setClinics] = useState([]);
+  const [keyInfoContent, setKeyInfoContent] = useState('');
+
+  const [avatar, setAvatar] = useState<File | null>(null);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const [form] = Form.useForm();
+  const normFile = (e: any) => {
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e?.fileList;
+  };
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (!avatar) {
+      alert('Please select an avatar file.');
+      return;
+    }
+
+    // Tạo form data để gửi lên server
+    const formData = new FormData();
+
+    formData.append('AvatarFile', avatar);
+
+    try {
+      const response = await upload(formData); // Call service
+      console.log('User created:', response);
+    } catch (error) {
+      console.error('Error creating user:', error);
+    }
+  };
+
+
+  const uploadImg = async (): Promise<string | null> => {
+    if (!avatar) {
+      alert('Please select an avatar file.');
+      return null;
+    }
+
+    const formData = new FormData();
+    formData.append('AvatarFile', avatar);
+
+    try {
+      const response = await upload(formData); // Call service, giả sử trả về URL ảnh
+      console.log('User created:', response);
+
+      return response;  // Trả về URL của ảnh
+    } catch (error) {
+      console.error('Error creating user:', error);
+      return null; // Trả về null nếu lỗi xảy ra
+    }
+  };
+
+  const handleOk = () => {
+    form
+      .validateFields()
+      .then(async (values: any) => {
+
+        const imageUrl = await uploadImg();
+
+        const dataPost = {
+          ...values,
+          dateOfBirth: '1999-09-09',
+          //dateOfBirth: values.dateOfBirth ? values.dateOfBirth.format('YYYY-MM-DD') : null,
+          description: '',
+          avatar: imageUrl,
+          //avatar: 'avatar.jpg',
+        };
+
+        //dataPost.avatarFile = avatar;
+        alert("nm")
+        console.log("datap  ", dataPost)
+
+
+        if (dataPost.doctorId) {
+          dataPost.keyInfo = keyInfoContent;
+          await updateDoctor(dataPost);
+          props.onUpdateSuccess();
+          props.fetchData();
+          setIsModalOpen(false);
+          props.handleCancel();
+
+        } else {
+
+          await createDoctor(dataPost);
+          props.fetchData();
+          setIsModalOpen(false);
+          props.handleCancel();
+          alert("Thêm người dùng thành công!");
+        }
+      })
+    // .catch(() => {
+    //   alert("Thông tin người dùng chưa đủ!");
+    // });
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+    props.handleCancel();
+  };
+
+  const fetchSpecialties = async () => {
+    try {
+      const response = await getPaged_Spec({
+        pageIndex: 1,
+        pageSize: 50
+      });
+      setSpecialties(response);
+      console.log("specs  ", response);
+    } catch (error) {
+      console.error('Error fetching specialties', error);
+    }
+  };
+
+  const fetchTitles = async () => {
+    try {
+      const response = await getAllTitles();
+      setTitles(response);
+    } catch (error) {
+      console.error('Error fetching specialties', error);
+    }
+  };
+
+  const fetchData = async (id: any) => {
+    let data = await getDoctorById({
+      id: id,
+    });
+    form.setFieldsValue(data);
+    let clinics = await getClinicsByDocId({
+      doctorId: data.doctorId,
+    });
+    console.log("doc   ", data)
+
+    const date = dayjs(data?.dateOfBirth).isValid()
+      ? dayjs(data?.dateOfBirth)
+      : null;
+    form.setFieldValue("dateOfBirth", date);
+    const genderFromAPI = data?.gender;
+
+    const convertedGender =
+      genderFromAPI === "male" ? "Nam" : genderFromAPI === "female" ? "Nữ" : "Không xác định";
+    form.setFieldsValue({
+      specializationId: data.specializationId,
+      titleId: data.titleId,
+      gender: convertedGender,
+    });
+    //form.setFieldValue("gender", convertedGender);
+    setKeyInfoContent(data.keyInfo);
+
+  };
+
+  // const user = JSON.parse(localStorage.getItem('user') || '{}');
+  // const upload_props: UploadProps = {
+  //   name: 'file',
+  //   action: 'http://localhost:52872/api/Users/upload',
+  //   headers: {
+  //     authorization: "Bearer " + user.token,
+  //   },
+  //   onChange(info) {
+  //     if (info.file.status === 'done') {
+  //       form.setFieldValue("image_url", info.fileList[0].response.filePath);
+  //     }  
+  //   },
+  // };
+
+  useEffect(() => {
+    form.resetFields();
+    fetchSpecialties();
+    fetchTitles();
+    if (props.doctorid !== "") {
+      console.log("propid  ", props.doctorid)
+      fetchData(props.doctorid);
+    }
+    showModal();
+  }, []);
+
+  const validatePhoneNumber = (rule: any, value: any) => {
+    if (!value) {
+      return Promise.reject("Số điện thoại không được để trống!");
+    } else {
+      const trimmedValue = value.trim();
+      if (!/^[0-9]{10}$/.test(trimmedValue)) {
+        return Promise.reject("Số điện thoại phải có đúng 10 kí tự số!");
+      }
+    }
+    return Promise.resolve();
+  };
+
+  return (
+    <>
+
+      <Modal
+        title="Thông tin bác sĩ"
+        open={isModalOpen}
+        cancelText={"Hủy bỏ"}
+        okText={"Lưu lại"}
+        width={"60vw"}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={(child) => {
+          return (
+            <>
+              <hr
+                style={{
+                  color: "#F8F3F3",
+                  marginTop: "5px",
+                  marginBottom: "5px",
+                }}
+              />
+              <Flex justify={"flex-end"} align="center" gap={8}>
+                {child}
+              </Flex>
+            </>
+          );
+        }}
+      >
+
+
+        <Form
+          {...formItemLayout}
+          form={form}
+          initialValues={{
+            residence: ["zhejiang", "hangzhou", "xihu"],
+            prefix: "86",
+
+          }}
+          style={{ maxWidth: "100%", fontSize: 38 }}
+          scrollToFirstError
+        >
+          <Form.Item
+            style={{ visibility: "hidden" }}
+            name="doctorId"
+            label="Mã bác sĩ"
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            name="name"
+            label="Họ và tên"
+            rules={[
+              {
+                required: true,
+                message: "Họ và tên không được để trống!",
+                whitespace: true,
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            name="gender"
+            label="Giới tính"
+            rules={[
+              { required: true, message: "Giới tính không được để trống!" },
+            ]}
+          >
+            <Select placeholder="Lựa chọn giới tính">
+              <Option value="male">Nam</Option>
+              <Option value="female">Nữ</Option>
+              <Option value="none">Không xác định</Option>
+            </Select>
+          </Form.Item>
+
+          <Form.Item
+            name="dateOfBirth"
+            label="Ngày sinh"
+            rules={[
+              { required: true, message: "Ngày sinh không được để trống!" },
+            ]}
+          >
+            <DatePicker format={{ format: "DD/MM/YYYY", type: "mask" }} />
+          </Form.Item>
+
+
+          {/* <Form.Item
+            name="dateOfBirth"
+            label="dateOfBirth"
+            
+          >
+            <Input />
+          </Form.Item> */}
+
+          {/* <DatePicker
+              format="MM-DD-YYYY"  // Định dạng hiển thị ngày tháng trên giao diện
+              onChange={(date) => form.setFieldsValue({ dateOfBirth: date.format('MM-DD-YYYY') })}
+            /> */}
+
+          <Form.Item
+            name="email"
+            label="E-mail"
+            rules={[
+              {
+                type: "email",
+                message: "Sai định dạng địa chỉ email!",
+              },
+              {
+                required: true,
+                message: "Địa chỉ email không được để trống!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            name="phone"
+            label="SĐT"
+            rules={[
+
+              {
+                required: true,
+                message: "Số điện thoại không được để trống!",
+              },
+              {
+                validator: validatePhoneNumber,
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
+
+          <Form.Item name="address" label="Địa chỉ">
+            <Input.TextArea showCount maxLength={100} />
+          </Form.Item>
+
+          <Form.Item
+            
+            label="Avatar"
+          // valuePropName="fileList"
+          // getValueFromEvent={normFile}
+
+          >
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setAvatar(e.target.files ? e.target.files[0] : null)}
+            />
+            {/* <Button icon={<UploadOutlined />}>Tải lên ảnh đại diện</Button> */}
+
+          </Form.Item>
+
+          <h6 style={{ marginLeft: 30 }}>Thông tin tài khoản</h6>
+
+          {/* <Form.Item
+            name="specializationId"
+            label="Specialty"
+            rules={[{ required: true, message: 'Vui lòng chọn chuyên ngành!' }]}
+          >
+            <Table></Table>
+          </Form.Item> */}
+
+          <Form.Item
+            name="specializationId"
+            label="Specialty"
+            rules={[{ required: true, message: 'Vui lòng chọn chuyên ngành!' }]}
+          >
+            <Select placeholder="Chọn chuyên ngành">
+              {specialties.map((specialty: any) => (
+                <Option key={specialty.id} value={specialty.id}>
+                  {specialty.name}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+
+          <Form.Item
+            name="titleId"
+            label="Chức danh"
+            rules={[{ required: true, message: 'Vui lòng chọn chức danh!' }]}
+          >
+            <Select placeholder="Chọn chức danh">
+              {titles.map((title: any) => (
+                <Option key={title.id} value={title.id}>
+                  {title.name}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+
+          <Form.Item
+            name="keyInfo"
+            label="Thông tin chính"
+            rules={[
+              {
+                required: true,
+                message: "Vui lòng nhập thông tin chính!",
+              },
+            ]}
+          >
+            {/* <Input placeholder="Nhập thông tin chính..." /> */}
+            {/* <div > */}
+            <Quill
+              value={keyInfoContent}
+              onChange={setKeyInfoContent}
+              placeholder="Nhập thông tin chính..."
+
+            />
+            {/* </div> */}
+          </Form.Item>
+
+          <Form.Item
+            name="infoHtml"
+            label="Info HTML"
+            rules={[
+              {
+                required: false,
+                message: "Vui lòng nhập thông tin HTML!",
+              },
+            ]}
+          >
+            <Input.TextArea rows={4} placeholder="Nhập thông tin HTML..." />
+          </Form.Item>
+
+
+          <Form.Item
+            name="price"
+            label="Price"
+            rules={[
+              {
+                required: true,
+                message: "Vui lòng nhập giá!",
+              },
+              // {
+              //   type: "number",
+              //   min: 0,
+              //   message: "Giá phải là một số dương!",
+              // },
+            ]}
+          >
+            <Input
+              type="number"
+              placeholder="Nhập giá..."
+            />
+          </Form.Item>
+
+
+
+
+
+
+          {/* <Form.Item label="Ảnh đại diện" name="image_url">
+            <Upload {...upload_props}>
+              <Button icon={<UploadOutlined />}>Click to Upload</Button>
+          </Upload>
+
+        </Form.Item> */}
+
+
+
+        </Form>
+
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>Avatar:</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setAvatar(e.target.files ? e.target.files[0] : null)}
+            />
+          </div>
+          <button type="submit">Create User</button>
+        </form>
+
+        <img src="https://localhost:44384/uploads/9e0d9a01-9643-42fe-b559-13b712a34914_venn-diagram.png" />
+
+      </Modal>
+    </>
+  );
+};
+export default DoctorModel;

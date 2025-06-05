@@ -1,0 +1,95 @@
+.doctor-card {
+    /* box-shadow: 4px 4px 4px 6px #5ABFAB; */
+    transition: transform 0.3s ease;
+    margin-top: 20px;
+    padding: 15px;
+    border: 2px solid #5ABFAB;
+}
+
+.doctor-card:hover {
+    transform: scale(1.03);
+}
+ .service-item {
+     display: flex;
+     align-items: center;
+     padding: 10px;
+     border: 1px solid #f1f1f1;
+     border-radius: 10px;
+     margin-bottom: 15px;
+     background-color: #fff;
+ }
+
+ .service-item img {
+     width: 40px;
+     margin-right: 15px;
+ }
+
+ .service-title {
+     font-size: 18px;
+     font-weight: 500;
+ }
+ .page {
+     height: auto;
+     text-align: center;
+     margin-top: 20px;
+ }
+
+ .page ul {
+     display: inline-flex;
+     list-style: none;
+ }
+
+ .page ul li a {
+     cursor: pointer;
+     padding: 10px 10px;
+     border: 1px solid #dbdbdb;
+     background-color: white;
+     font-size: 14px;
+ }
+
+ .page ul li a:hover {
+     background-color: #00a2ff;
+     color: white;
+ }
+
+ .booking-price{
+    font-size: 18px;
+    font-weight: 400;
+    color: white;
+ }
+
+ .view-detail-link {
+    text-decoration: none;
+    color: #00a2ff;
+    font-size: 16px;
+    font-weight: 300;
+    display: inline-block;
+ }
+ 
+ .radio-container {
+     display: flex;
+     gap: 20px;
+     /* khoảng cách giữa 2 div */
+ }
+
+ .radio-box {
+     flex: 1;
+     border: 1px solid #ccc;
+     border-radius: 8px;
+     padding: 30px 0;
+     text-align: center;
+     position: relative;
+     cursor: pointer;
+    background-color: #FAEDCA;
+ }
+
+ .radio-box input[type="radio"] {
+     transform: scale(1.5);
+ }
+
+ .radio-label {
+     display: block;
+     margin-top: 10px;
+     font-weight: 500;
+     color: #5ABFAB;
+ }

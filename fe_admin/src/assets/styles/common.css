@@ -1,0 +1,32 @@
+.btn-add {
+    background-color: rgb(91, 192, 171);
+    color: white;
+    width: 150px;
+    height: 40px;
+    font-size: 18px;
+    margin-top: 20px;
+    border: 0px;
+}
+/* .btn-add:hover {
+    background-color: whitesmoke;
+    color: green;
+} */
+
+ .select-wrapper {
+     position: relative;
+     display: inline-block;
+ }
+
+ .select-wrapper i {
+     position: absolute;
+     left: 17px;
+     /* Khoảng cách từ bên trái */
+     top: 50%;
+     /* Giữa theo chiều dọc */
+     transform: translateY(-50%);
+     /* Đưa icon vào giữa */
+     color: #6c757d;
+     /* Màu sắc của icon */
+     pointer-events: none;
+     /* Không cho phép nhấp vào icon */
+ }

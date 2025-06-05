@@ -1,0 +1,18 @@
+.ant-slider-tooltip {
+    z-index: 0 !important;
+    /* Ensure this is lower than your modal's zIndex */
+}
+
+/* override.css */
+.ant-slider .ant-tooltip .ant-tooltip-inner {
+    background-color: #4096FF !important;
+    /* Change the background color to blue */
+    color: white !important;
+    /* Change the text color to white for better contrast */
+}
+
+.ant-slider-tooltip-inner{
+    background-color: #4096FF !important;
+        /* Change the background color to blue */
+        color: white !important;
+}
